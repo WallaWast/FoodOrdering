@@ -4,6 +4,7 @@ import Colors from "@/src/constants/Colors";
 import { useState } from "react";
 import { View, Text, StyleSheet, TextInput, Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { Stack } from "expo-router";
 
 const CreateProductScreen = () => {
   const [name, setName] = useState("");
@@ -64,6 +65,7 @@ const CreateProductScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Stack.Screen options={{ title: "Create Product" }} />
       <Image
         source={{ uri: image || defaultPizzaImage }}
         style={styles.image}
