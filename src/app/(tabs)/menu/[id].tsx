@@ -28,20 +28,20 @@ const ProductDetailsScreen = () => {
         style={styles.image}
       />
 
-      <Text>Select Size</Text>
+      <Text style={styles.subtitle}>Select Size</Text>
       <View style={styles.sizes}>
         {sizes.map((size) => (
           <Pressable
             onPress={() => {
               setSelectedSize(size);
             }}
+            key={size}
             style={[
               styles.size,
               {
                 backgroundColor: selectedSize === size ? "gainsboro" : "white",
               },
             ]}
-            key={size}
           >
             <Text
               style={[
@@ -70,6 +70,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   image: { width: "100%", aspectRatio: 1 },
+  subtitle: {
+    marginVertical: 10,
+    fontWeight: "600",
+  },
   price: { fontSize: 18, fontWeight: "bold", marginTop: "auto" },
   sizes: {
     flexDirection: "row",
@@ -84,6 +88,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  sizeText: { fontSize: 20, fontWeight: "500" },
+  sizeText: { fontSize: 20, fontWeight: "500", color: "black" },
 });
 export default ProductDetailsScreen;
