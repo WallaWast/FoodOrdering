@@ -1,10 +1,9 @@
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Redirect, Tabs } from "expo-router";
-import { Pressable } from "react-native";
+import { Pressable, useColorScheme } from "react-native";
 
 import Colors from "@/src/constants/Colors";
-import { useColorScheme } from "@/src/components/useColorScheme";
 import { useClientOnlyValue } from "@/src/components/useClientOnlyValue";
 import { useAuth } from "@/src/providers/AuthProvider";
 
@@ -21,7 +20,7 @@ export default function TabLayout() {
   const { session } = useAuth();
 
   if (!session) {
-    return <Redirect href={"/"} />;
+    return <Redirect href={"/sign-in"} />;
   }
 
   return (
@@ -50,6 +49,13 @@ export default function TabLayout() {
           title: "Orders",
           headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
     </Tabs>
