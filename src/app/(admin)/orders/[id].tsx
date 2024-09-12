@@ -19,15 +19,11 @@ const OrderDetailScreen = () => {
 
   const { data: order, isLoading, error } = useOrderDetails(id);
 
-  if (!order) {
-    return <Text>Order not found!</Text>;
-  }
-
   if (isLoading) {
     return <ActivityIndicator />;
   }
 
-  if (error) {
+  if (error || !order) {
     return <Text>Failed to fetch products</Text>;
   }
 
