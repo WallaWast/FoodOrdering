@@ -12,6 +12,7 @@ import OrderListItem from "../../../components/OrderListItem";
 import { OrderStatusList } from "@/src/types";
 import Colors from "@/src/constants/Colors";
 import { useOrderDetails, useUpdateOrder } from "@/src/api/orders";
+import { notifyUserAboutOrderUpdate } from "@/src/lib/notifications";
 
 const OrderDetailScreen = () => {
   const { id: idString } = useLocalSearchParams();
@@ -20,8 +21,11 @@ const OrderDetailScreen = () => {
   const { data: order, isLoading, error } = useOrderDetails(id);
   const { mutate: updateOrder } = useUpdateOrder();
 
-  const updateStatus = (status: string) => {
+  const updateStatus = async (status: string) => {
     updateOrder({ id: id, updatedFields: { status } });
+    if (order) {
+      await notifyUserAboutOrderUpdate({ ...order, status });
+    }
   };
 
   if (isLoading) {

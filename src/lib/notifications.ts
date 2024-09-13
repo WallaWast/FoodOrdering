@@ -2,18 +2,24 @@ import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
 import Constants from "expo-constants";
+import { supabase } from "./supabase";
+import { Tables } from "../database.types";
 
 function handleRegistrationError(errorMessage: string) {
   alert(errorMessage);
   throw new Error(errorMessage);
 }
 
-async function sendPushNotification(expoPushToken: string) {
+async function sendPushNotification(
+  expoPushToken: string,
+  title: string,
+  body: string
+) {
   const message = {
     to: expoPushToken,
     sound: "default",
-    title: "Original Title",
-    body: "And here is the body!",
+    title: title,
+    body: body,
     data: { someData: "goes here" },
   };
 
@@ -73,3 +79,25 @@ export async function registerForPushNotificationsAsync() {
     handleRegistrationError("Must use physical device for push notifications");
   }
 }
+
+const getUserToken = async (userId: string | null) => {
+  if (!userId) return "";
+
+  const { data } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", userId)
+    .single();
+
+  return data?.expo_push_token;
+};
+
+export const notifyUserAboutOrderUpdate = async (order: Tables<"orders">) => {
+  const token = await getUserToken(order.user_id);
+  if (token) {
+    const title = `Your order is ${order.status}`;
+    const body = "It should get there in a few minutes!";
+
+    sendPushNotification(token, title, body);
+  }
+};

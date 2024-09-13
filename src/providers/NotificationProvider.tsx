@@ -29,10 +29,10 @@ const NotificationProvider = ({ children }: PropsWithChildren) => {
       return;
     }
     // update the token in the database
-    // await supabase
-    //   .from("profiles")
-    //   .update({ expo_push_token: newToken })
-    //   .eq("id", profile.id);
+    await supabase
+      .from("profiles")
+      .update({ expo_push_token: newToken })
+      .eq("id", profile.id);
   };
 
   useEffect(() => {
@@ -60,8 +60,8 @@ const NotificationProvider = ({ children }: PropsWithChildren) => {
     };
   }, []);
 
-  console.log("Push token: ", expoPushToken);
-  console.log("Notif: ", notification);
+  //   console.log("Push token: ", expoPushToken);
+  //   console.log("Notif: ", notification);
 
   return <>{children}</>;
 };
